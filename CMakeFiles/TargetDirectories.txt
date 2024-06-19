@@ -1,0 +1,3 @@
+D:/code/c/program/musicvi/CMakeFiles/MusicVi.dir
+D:/code/c/program/musicvi/CMakeFiles/edit_cache.dir
+D:/code/c/program/musicvi/CMakeFiles/rebuild_cache.dir

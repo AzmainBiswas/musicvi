@@ -1,0 +1,14 @@
+cmake_minimum_required(VERSION 3.10)
+
+set(CMAKE_BUILD_TYPE DEBUG)
+set(CMAKE_C_COMPILER "gcc")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Wextra")
+
+project(MusicVi)
+
+include_directories(${PROJECT_SOURCE_DIR}/raylib-5.0_win64_mingw-w64/include)
+link_directories(${PROJECT_SOURCE_DIR}/raylib-5.0_win64_mingw-w64/lib)
+
+add_executable(${PROJECT_NAME} main.c)
+
+target_link_libraries(${PROJECT_NAME} raylib winmm gdi32)
