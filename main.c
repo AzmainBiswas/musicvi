@@ -5,7 +5,7 @@
 #include <math.h>
 #include <stdio.h>
 
-#define N 158
+#define N (1 << 15)
 float pi;
 float in[N];
 float complex out[N];
@@ -26,7 +26,7 @@ int main(int argc, char **argv)
   }
 
   if (argv[1] == NULL)
-    music_path = "Burden of Truth [Idgc7Kr0VQY].mp3";
+    music_path = "Queen - Another One Bites The Dust.mp3";
   else
     music_path = argv[1];
 
@@ -39,7 +39,7 @@ int main(int argc, char **argv)
   PlayMusicStream(music);
   AttachAudioStreamProcessor(music.stream, callback);
 
-  SetTargetFPS(25);
+  SetTargetFPS(60);
   InitWindow(1000, 600, "MusicVc");
 
   while (!WindowShouldClose())
@@ -84,14 +84,22 @@ int main(int argc, char **argv)
     BeginDrawing();
     ClearBackground((Color){40, 44, 52, 255});
 
-    float cell_width = (float)width / N;
-
-    for (size_t i = 0; i < N; ++i)
+    float step = 1.06f;
+    size_t m = 0;
+    for (float f = 20.0f; (size_t)f < N; f *= step)
     {
-      float t = (float)amp(out[i]) / max_amp;
-      float rect_hight = (float)hight/1.4 * t;
+      m += 1;
+    }
+
+    float cell_width = (float)width / m;
+    m = 0;
+    for (float f = 20.0f; (size_t)f < N; f *= step)
+    {
+      float t = amp(out[m]) / max_amp;
+      float rect_hight = hight * t;
       float y_position = hight - rect_hight - 5;
-      DrawRectangle((i + 1) * cell_width, y_position, cell_width, rect_hight, (Color){198, 120, 221, 255});
+      DrawRectangle(m * cell_width, y_position, cell_width, rect_hight, (Color){198, 120, 221, 255});
+      m += 1;
     }
 
     EndDrawing();
@@ -138,10 +146,10 @@ float amp(float complex z)
 
 static void callback(void *bufferData, unsigned int frames)
 {
-  if (frames < N)
-    return;
-  if (frames > N)
-    frames = N;
+  // if (frames < N)
+  //   return;
+  // if (frames > N)
+  //   frames = N;
 
   float(*fs)[2] = bufferData;
 
